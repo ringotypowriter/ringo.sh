@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Section from '../../components/Section.astro';
+import { getCollection } from 'astro:content';
+
+const snippets = (await getCollection('snippets')).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Layout title="Snippets | ringo.sh">
+  <Section title="Snippets">
+    <div class="flex flex-col gap-8">
+      {snippets.map((s) => (
+        <article class="group">
+          <a href={`/snippets/${s.slug}`} class="block hover:no-underline">
+            <div class="flex justify-between items-baseline mb-2">
+              <h2 class="text-lg font-medium group-hover:underline decoration-1 underline-offset-4">{s.data.title}</h2>
+              <time class="font-mono text-xs opacity-50">{s.data.date.toISOString().split('T')[0]}</time>
+            </div>
+            {s.data.description && (
+                <p class="text-sm opacity-70 line-clamp-2">{s.data.description}</p>
+            )}
+          </a>
+        </article>
+      ))}
+    </div>
+  </Section>
+</Layout>

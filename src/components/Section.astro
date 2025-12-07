@@ -1,0 +1,19 @@
+---
+interface Props {
+  title?: string;
+  className?: string;
+}
+
+const { title, className = "" } = Astro.props;
+---
+
+<section class:list={["w-full", className]}>
+  {title && (
+    <div class="flex items-center gap-4 mb-6 opacity-60 font-mono text-sm uppercase tracking-wider">
+      <span>{title}</span>
+      <div class="h-[1px] bg-current flex-grow opacity-50"></div>
+    </div>
+  )}
+  
+  <slot />
+</section>

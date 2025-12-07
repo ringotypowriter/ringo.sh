@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+    --color-sand-light: #FDFCF5;
+    --color-sand-text-light: #434039;
+
+    --color-sand-dark: #1C1B1A;
+    --color-sand-text-dark: #E6E4D9;
+
+    --font-mono: 'Google Sans Code', 'Fira Code', monospace;
+    --font-sans: 'Noto Sans SC', system-ui, sans-serif;
+}
+
+@layer base {
+    body {
+        @apply bg-sand-light text-sand-text-light font-sans antialiased;
+    }
+
+    /* Dark mode support - assuming system preference or class based */
+    @media (prefers-color-scheme: dark) {
+        body {
+            @apply bg-sand-dark text-sand-text-dark;
+        }
+    }
+
+    /* Minimalist divider */
+    hr {
+        @apply border-sand-text-light/20 dark:border-sand-text-dark/20 my-8;
+    }
+
+    /* Link hover effect - underline only */
+    a {
+        @apply hover:underline decoration-1 underline-offset-4 cursor-pointer;
+    }
+}

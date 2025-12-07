@@ -1,11 +1,103 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import InteractiveD20 from "../components/InteractiveD20";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const allSnippets = await getCollection("snippets");
+const recentSnippets = allSnippets
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <Layout>
-	<Welcome />
+  <div class="mb-16">
+    <InteractiveD20 client:load />
+    <p class="text-center font-mono text-xs opacity-50 mt-4">
+      [SYSTEM]: Icosahedron.tsx loaded. Spin me.
+    </p>
+  </div>
+
+  <div class="prose prose-sand dark:prose-invert max-w-none mb-16">
+    <p class="text-lg leading-relaxed font-mono">Typewriter 🔺 Typowriter 🟢</p>
+    <p>I'm Ringo. I build software. Sometimes I write about it.</p>
+  </div>
+
+  <Section title="Selected Work">
+    <ul class="space-y-4">
+      {
+        [
+          {
+            name: "Sparkify",
+            desc: "Native macOS tool for AI prompt management.",
+            url: "https://github.com/SkyPixel-Studio/Sparkify",
+          },
+          {
+            name: "flaten",
+            desc: "Lightweight speech-only subtitle generator (Zig).",
+            url: "https://github.com/ringotypowriter/flaten",
+          },
+          {
+            name: "ringotrack",
+            desc: "Art time tracker with GitHub-style contributions graph.",
+            url: "https://github.com/ringotypowriter/ringotrack",
+          },
+          {
+            name: "hikkoshi",
+            desc: "Zig-based CLI for isolated HOME environments.",
+            url: "https://github.com/ringotypowriter/hikkoshi",
+          },
+        ].map((p: { name: string; desc: string; url: string }) => (
+          <li class="flex justify-between items-baseline group">
+            <a
+              href={p.url}
+              target="_blank"
+              class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors whitespace-nowrap"
+            >
+              {p.name}
+            </a>
+            <span class="text-sm opacity-60 dashed-line flex-grow mx-4" />
+            <span class="text-sm opacity-60 font-mono text-right whitespace-nowrap">
+              {p.desc}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-6 text-right">
+      <a href="/projects" class="text-sm font-mono opacity-60 hover:opacity-100"
+        >View all -></a
+      >
+    </div>
+  </Section>
+
+  <Section title="Recent Snippets" className="mt-20">
+    <ul class="space-y-4">
+      {
+        recentSnippets.map((post) => (
+          <li class="flex justify-between items-baseline">
+            <a
+              href={`/snippets/${post.slug}`}
+              class="hover:text-sand-text-light dark:hover:text-sand-text-dark"
+            >
+              {post.data.title}
+            </a>
+            <span class="text-xs font-mono opacity-40">
+              {post.data.date.toISOString().split("T")[0]}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
 </Layout>
+
+<style>
+  /* Custom dashed line for list items */
+  .dashed-line {
+    border-bottom: 1px dashed currentColor;
+    opacity: 0.2;
+    position: relative;
+    top: -5px;
+  }
+</style>
