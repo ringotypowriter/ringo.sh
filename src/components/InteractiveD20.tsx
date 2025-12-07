@@ -1,47 +1,89 @@
-import React, { useRef, useState } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, ContactShadows } from '@react-three/drei';
-import type { Mesh } from 'three';
+import React, { useRef, useState, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Float, ContactShadows, Html, Billboard } from '@react-three/drei';
+import { Physics, RigidBody, MeshCollider, RapierRigidBody } from '@react-three/rapier';
+import * as THREE from 'three';
 
-function D20(props: any) {
-    const meshRef = useRef<Mesh>(null!);
+// 🍎 苹果组件
+function Apple(props: any) {
+    return (
+        <RigidBody
+            colliders="ball"
+            restitution={0.7}
+            friction={0.1}
+            position={[0, 0, 0]}
+            {...props}
+        >
+            <mesh>
+                <sphereGeometry args={[0.10, 16, 16]} />
+                {/* 隐藏物理网格，只显示 Emoji */}
+                <meshBasicMaterial transparent opacity={0.0} />
+
+                <Billboard>
+                    <Html
+                        transform
+                        center
+                        style={{
+                            pointerEvents: 'none',
+                            fontSize: '10px',
+                            userSelect: 'none'
+                        }}
+                    >
+                        🍎
+                    </Html>
+                </Billboard>
+            </mesh>
+        </RigidBody>
+    );
+}
+
+// 📦 笼子组件 (D20)
+function Cage(props: any) {
+    const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, 0), []);
+    const rigidBodyRef = useRef<RapierRigidBody>(null);
     const [hovered, setHovered] = useState(false);
 
-    // 拖动状态追踪
+    // --- 交互与旋转逻辑 ---
     const isDragging = useRef(false);
     const previousMousePosition = useRef({ x: 0, y: 0 });
     const rotationVelocity = useRef({ x: 0, y: 0 });
     const autoRotationEnabled = useRef(true);
 
-    useFrame((_state, delta) => {
-        if (!meshRef.current) return;
+    // 维护当前旋转状态 (Euler)
+    const currentRotation = useRef(new THREE.Euler(0, 0, 0));
 
+    useFrame((_state, delta) => {
+        // 1. 计算新的旋转逻辑 (同之前)
         if (isDragging.current) {
-            // 拖动时:不做任何自动旋转,旋转由鼠标事件直接控制
             autoRotationEnabled.current = false;
         } else {
-            // 没有拖动时:应用惯性旋转
+            // 惯性处理
             if (Math.abs(rotationVelocity.current.x) > 0.001 || Math.abs(rotationVelocity.current.y) > 0.001) {
-                meshRef.current.rotation.x += rotationVelocity.current.y;
-                meshRef.current.rotation.y += rotationVelocity.current.x;
+                currentRotation.current.x += rotationVelocity.current.y;
+                currentRotation.current.y += rotationVelocity.current.x;
 
-                // 惯性衰减
                 rotationVelocity.current.x *= 0.95;
                 rotationVelocity.current.y *= 0.95;
 
                 autoRotationEnabled.current = false;
             } else {
-                // 惯性完全停止后,启用自动旋转
-                if (!autoRotationEnabled.current) {
+                if (!autoRotationEnabled.current &&
+                    Math.abs(rotationVelocity.current.x) < 0.001 &&
+                    Math.abs(rotationVelocity.current.y) < 0.001) {
                     autoRotationEnabled.current = true;
                 }
 
-                // 自动旋转
                 if (autoRotationEnabled.current) {
-                    meshRef.current.rotation.x += delta * 0.2;
-                    meshRef.current.rotation.y += delta * 0.25;
+                    currentRotation.current.x += delta * 0.2;
+                    currentRotation.current.y += delta * 0.25;
                 }
             }
+        }
+
+        // 2. 将旋转应用到物理实体 (Kinematic)
+        if (rigidBodyRef.current) {
+            const q = new THREE.Quaternion().setFromEuler(currentRotation.current);
+            rigidBodyRef.current.setNextKinematicRotation(q);
         }
     });
 
@@ -52,21 +94,17 @@ function D20(props: any) {
             x: event.clientX,
             y: event.clientY
         };
-        // 停止惯性
         rotationVelocity.current = { x: 0, y: 0 };
     };
 
     const handlePointerMove = (event: any) => {
         if (!isDragging.current) return;
-
         const deltaX = event.clientX - previousMousePosition.current.x;
         const deltaY = event.clientY - previousMousePosition.current.y;
 
-        // 更新旋转
-        meshRef.current.rotation.y += deltaX * 0.01;
-        meshRef.current.rotation.x += deltaY * 0.01;
+        currentRotation.current.y += deltaX * 0.01;
+        currentRotation.current.x += deltaY * 0.01;
 
-        // 记录速度用于惯性
         rotationVelocity.current = {
             x: deltaX * 0.01,
             y: deltaY * 0.01
@@ -83,46 +121,48 @@ function D20(props: any) {
     };
 
     return (
-        <mesh
+        <RigidBody
+            ref={rigidBodyRef}
+            type="kinematicPosition"
+            colliders="trimesh" // 使用网格作为碰撞体 (空心)
             {...props}
-            ref={meshRef}
-            scale={hovered ? 1.05 : 1}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerOver={() => setHovered(true)}
-            onPointerOut={() => {
-                setHovered(false);
-                isDragging.current = false;
-            }}
         >
-            <icosahedronGeometry args={[1, 0]} />
-            <meshStandardMaterial
-                color={hovered ? '#E6E4D9' : '#434039'}
-                wireframe={true}
-                transparent
-                opacity={0.8}
-                wireframeLinewidth={2}
-            />
-        </mesh>
+            <mesh
+                geometry={geometry}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerOver={() => setHovered(true)}
+                onPointerOut={() => {
+                    setHovered(false);
+                    isDragging.current = false;
+                }}
+            >
+                <meshStandardMaterial
+                    color={hovered ? '#E6E4D9' : '#434039'}
+                    wireframe={true}
+                    transparent
+                    opacity={0.8}
+                    wireframeLinewidth={2}
+                    side={THREE.DoubleSide} // 双面渲染，让内部也能看到笼子
+                />
+            </mesh>
+        </RigidBody>
     );
 }
 
 export default function InteractiveD20() {
     return (
-        <div className="h-64 w-full flex items-center justify-center cursor-grab active:cursor-grabbing">
+        <div className="h-64 w-full flex items-center justify-center cursor-grab active:cursor-grabbing select-none">
             <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <pointLight position={[-10, -10, -10]} />
 
-                <Float
-                    speed={2}
-                    rotationIntensity={1}
-                    floatIntensity={1}
-                >
-                    <D20 />
-                </Float>
+                <Physics gravity={[0, -9.8, 0]}>
+                    <Cage position={[0, 0, 0]} />
+                    <Apple />
+                </Physics>
 
                 <ContactShadows position={[0, -1.4, 0]} opacity={0.3} scale={3} blur={2} />
             </Canvas>
