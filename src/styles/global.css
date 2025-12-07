@@ -130,4 +130,16 @@
         color: var(--tw-prose-quotes);
         opacity: 0.7;
     }
+
+    /* Image styling with shadow */
+    img {
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(67, 64, 57, 0.15);
+    }
+
+    @variant dark {
+        img {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+    }
 }

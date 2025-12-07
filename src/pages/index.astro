@@ -83,15 +83,20 @@ const recentSnippets = publishedSnippets
             >
               {post.data.title}
             </a>
-            <span class="text-xs font-mono opacity-40">
+            <time class="text-xs font-mono opacity-40" data-time={post.data.date.toISOString()}>
               {post.data.date.toISOString().split("T")[0]}
-            </span>
+            </time>
           </li>
         ))
       }
     </ul>
   </Section>
 </Layout>
+
+<script>
+  import { initTimeElements } from '../lib/formatTime';
+  initTimeElements();
+</script>
 
 <style>
   /* Custom dashed line for list items */
