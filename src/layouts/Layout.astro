@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { Github, X, Mail } from "lucide-astro";
 
 interface Props {
     title?: string;
@@ -62,20 +63,34 @@ const { title = "ringo.sh", description = "RingoTypowriter's Personal Site" } =
             <div>
                 <span>&copy; {new Date().getFullYear()} Ringotypowriter</span>
                 <span class="mx-2">::</span>
-                <span>Exusiai Protocol Active</span>
+                <span>PL Protocol // Online</span>
             </div>
             <div class="flex gap-4">
                 <a
                     href="https://github.com/ringotypowriter"
                     target="_blank"
-                    rel="noopener noreferrer">Gt</a
+                    rel="noopener noreferrer"
+                    class="hover:opacity-100 transition-opacity"
+                    aria-label="GitHub"
                 >
+                    <Github size={16} />
+                </a>
                 <a
-                    href="https://twitter.com/ringotypowriter"
+                    href="https://x.com/ringoo95"
                     target="_blank"
-                    rel="noopener noreferrer">Tw</a
+                    rel="noopener noreferrer"
+                    class="hover:opacity-100 transition-opacity"
+                    aria-label="X"
                 >
-                <a href="mailto:hi@ringo.sh">Em</a>
+                    <X size={16} />
+                </a>
+                <a
+                    href="mailto:connect@ringo.sh"
+                    class="hover:opacity-100 transition-opacity"
+                    aria-label="Email"
+                >
+                    <Mail size={16} />
+                </a>
             </div>
         </footer>
     </body>
