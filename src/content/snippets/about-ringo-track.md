@@ -1,7 +1,7 @@
 ---
 title: "about ringo track"
-date: 2025-12-07
-description: "“我也想成为Github 绿砖大师”"
+date: 2025-12-07T17:59:00+08:00
+description: "「我也想成为Github 绿砖大师」"
 ---
 
 项目地址指路：  

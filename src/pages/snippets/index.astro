@@ -16,7 +16,9 @@ const snippets = (await getCollection('snippets')).sort(
           <a href={`/snippets/${s.id}`} class="block hover:no-underline">
             <div class="flex justify-between items-baseline mb-2">
               <h2 class="text-lg font-medium group-hover:underline decoration-1 underline-offset-4">{s.data.title}</h2>
-              <time class="font-mono text-xs opacity-50">{s.data.date.toISOString().split('T')[0]}</time>
+              <time class="font-mono text-xs opacity-50" data-time={s.data.date.toISOString()}>
+                {s.data.date.toISOString().split('T')[0]}
+              </time>
             </div>
             {s.data.description && (
                 <p class="text-sm opacity-70 line-clamp-2">{s.data.description}</p>
@@ -27,3 +29,10 @@ const snippets = (await getCollection('snippets')).sort(
     </div>
   </Section>
 </Layout>
+
+<script>
+  import { initTimeElements } from '../../lib/formatTime';
+  
+  // 页面加载时转换所有时间为本地时间
+  initTimeElements();
+</script>

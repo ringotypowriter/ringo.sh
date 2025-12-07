@@ -25,9 +25,23 @@ if (!title) {
     process.exit(1);
 }
 
-// 生成当天日期 (YYYY-MM-DD 格式)
+// 生成当前时间戳（ISO 8601 格式，包含时区）
 const today = new Date();
-const date = today.toISOString().split('T')[0];
+// 获取本地时区偏移（分钟）
+const timezoneOffset = -today.getTimezoneOffset();
+const offsetHours = Math.floor(Math.abs(timezoneOffset) / 60);
+const offsetMinutes = Math.abs(timezoneOffset) % 60;
+const offsetSign = timezoneOffset >= 0 ? '+' : '-';
+const timezoneString = `${offsetSign}${String(offsetHours).padStart(2, '0')}:${String(offsetMinutes).padStart(2, '0')}`;
+
+// 格式化为 YYYY-MM-DDTHH:mm:ss+XX:XX
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0');
+const day = String(today.getDate()).padStart(2, '0');
+const hours = String(today.getHours()).padStart(2, '0');
+const minutes = String(today.getMinutes()).padStart(2, '0');
+const seconds = String(today.getSeconds()).padStart(2, '0');
+const date = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${timezoneString}`;
 
 // 生成 slug（文件名）
 // 将标题转换为小写，替换空格和特殊字符为连字符

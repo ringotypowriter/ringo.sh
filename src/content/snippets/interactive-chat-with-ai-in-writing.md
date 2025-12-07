@@ -1,6 +1,6 @@
 ---
 title: "Interactive Chat with AI in writing?"
-date: 2025-12-07
+date: 2025-12-07T15:07:00+08:00
 description: ""
 ---
 

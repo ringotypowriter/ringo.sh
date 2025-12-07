@@ -20,7 +20,7 @@ interface Props {
 
 const { entry } = Astro.props;
 
-// Format date
+// Format date (fallback for SSR)
 const formattedDate = entry.data.date.toISOString().split("T")[0];
 ---
 
@@ -31,7 +31,9 @@ const formattedDate = entry.data.date.toISOString().split("T")[0];
     <article class="prose prose-sand max-w-none">
         <h1 class="font-mono text-2xl mb-2">{entry.data.title}</h1>
         <div class="font-mono text-xs opacity-50 mb-12 dashed-bottom pb-4">
-            {formattedDate} :: SYSTEM_LOG
+            <time data-time={entry.data.date.toISOString()}>
+                {formattedDate}
+            </time> :: SYSTEM_LOG
         </div>
 
         <div set:html={entry.rendered?.html} />
@@ -45,6 +47,13 @@ const formattedDate = entry.data.date.toISOString().split("T")[0];
         >
     </div>
 </Layout>
+
+<script>
+    import { initTimeElements } from '../../lib/formatTime';
+    
+    // 页面加载时转换所有时间为本地时间
+    initTimeElements();
+</script>
 
 <style>
     .dashed-bottom {
