@@ -5,7 +5,8 @@ import Section from "../components/Section.astro";
 import InteractiveD20 from "../components/InteractiveD20";
 
 const allSnippets = await getCollection("snippets");
-const recentSnippets = allSnippets
+const publishedSnippets = allSnippets.filter(snippet => !snippet.data.wip);
+const recentSnippets = publishedSnippets
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 ---

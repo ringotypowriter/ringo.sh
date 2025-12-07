@@ -3,12 +3,13 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-    const customEntries = await getCollection("snippets");
+    const allEntries = await getCollection("snippets");
+    const publishedEntries = allEntries.filter(entry => !entry.data.wip);
     console.log(
         "📝 Entries:",
-        customEntries.map((e) => ({ id: e.id, slug: (e as any).slug })),
+        publishedEntries.map((e) => ({ id: e.id, slug: (e as any).slug })),
     );
-    return customEntries.map((entry) => ({
+    return publishedEntries.map((entry) => ({
         params: { slug: entry.id },
         props: { entry },
     }));

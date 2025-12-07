@@ -7,6 +7,7 @@ const snippets = defineCollection({
         title: z.string(),
         date: z.date(),
         description: z.string().optional(),
+        wip: z.boolean().optional().default(false),
     }),
 });
 

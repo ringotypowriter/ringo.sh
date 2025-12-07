@@ -3,9 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import Section from '../../components/Section.astro';
 import { getCollection } from 'astro:content';
 
-const snippets = (await getCollection('snippets')).sort(
-	(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const allSnippets = await getCollection('snippets');
+const snippets = allSnippets
+	.filter(snippet => !snippet.data.wip)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Layout title="Snippets | ringo.sh">
