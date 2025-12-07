@@ -77,7 +77,7 @@ const recentSnippets = allSnippets
         recentSnippets.map((post) => (
           <li class="flex justify-between items-baseline">
             <a
-              href={`/snippets/${post.slug}`}
+              href={`/snippets/${post.id}`}
               class="hover:text-sand-text-light dark:hover:text-sand-text-dark"
             >
               {post.data.title}

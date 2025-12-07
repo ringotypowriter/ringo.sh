@@ -21,6 +21,7 @@ const languageColors: Record<string, string> = {
     Kotlin: "#A97BFF",
     Dart: "#00B4AB",
     Scala: "#c22d40",
+    Zig: "#ec915c",
 
     // Functional / other popular languages
     Elixir: "#6e4a7e",
@@ -76,12 +77,12 @@ if (typeof window !== 'undefined' && typeof HTMLElement !== 'undefined') {
 
         renderLoading() {
             this.innerHTML = `
-          <div style="display:flex;align-items:flex-start;gap:16px;margin:20px 0;padding:16px 18px;border:1px solid #e5e7eb;border-radius:14px;background:#fff;opacity:0.6;">
+          <div style="display:flex;align-items:center;gap:16px;margin:20px 0;padding:16px 20px;border:1px solid #d6d3c8;border-radius:12px;background:#fffffe;opacity:0.6;">
             <div style="flex:1;min-width:0;">
-              <div style="font-size:16px;color:#9ca3af;">Loading...</div>
-              <p style="font-size:14px;color:#9ca3af;margin:6px 0 0 0;">Fetching repository data...</p>
+              <div style="font-size:17px;color:#a09d93;">Loading...</div>
+              <p style="font-size:14px;color:#a09d93;margin:6px 0 0 0;">Fetching repository data...</p>
             </div>
-            <div style="width:56px;height:56px;border-radius:12px;background:#f3f4f6;flex-shrink:0;"></div>
+            <div style="width:78px;height:78px;border-radius:12px;background:#f5f4f0;flex-shrink:0;"></div>
           </div>
         `;
         }
@@ -116,24 +117,24 @@ if (typeof window !== 'undefined' && typeof HTMLElement !== 'undefined') {
             const langColor = data.language ? (languageColors[data.language] || '#858585') : 'transparent';
             const avatarUrl = data.owner?.avatar_url || '';
 
-            this.innerHTML = `<a href="${data.html_url}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:flex-start;gap:16px;margin:20px 0;padding:16px 18px;border:1px solid #e5e7eb;border-radius:14px;background:#fff;box-shadow:0 8px 24px -12px rgba(30,64,175,0.15);text-decoration:none!important;transition:all 0.2s ease;" onmouseover="this.style.borderColor='#2563eb';this.style.boxShadow='0 12px 28px -12px rgba(37,99,235,0.25)';this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 8px 24px -12px rgba(30,64,175,0.15)';this.style.transform='translateY(0)';">
+            this.innerHTML = `<a href="${data.html_url}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:16px;margin:20px 0;padding:16px 20px;border:1px solid #d6d3c8;border-radius:12px;background:#fffffe;box-shadow:0 8px 24px -12px rgba(67,64,57,0.12);text-decoration:none!important;transition:all 0.2s ease;" onmouseover="this.style.borderColor='#434039';this.style.boxShadow='0 12px 28px -12px rgba(67,64,57,0.2)';this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#d6d3c8';this.style.boxShadow='0 8px 24px -12px rgba(67,64,57,0.12)';this.style.transform='translateY(0)';">
   <div style="flex:1;min-width:0;">
-    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px;font-size:16px;line-height:1.3;">
-      <span style="color:#4b5563;font-weight:500;">${data.owner.login} /</span>
-      <span style="color:#2563eb;font-weight:700;">${data.name}</span>
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:5px;font-size:17px;line-height:1.3;">
+      <span style="color:#78756a;font-weight:500;">${data.owner.login} /</span>
+      <span style="color:#434039;font-weight:700;">${data.name}</span>
     </div>
-    <p style="font-size:14px;color:#4b5563;line-height:1.6;margin:8px 0 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${data.description || 'No description provided.'}</p>
-    ${data.language ? `<div style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:#6b7280;">
-      <span style="width:10px;height:10px;border-radius:50%;background-color:${langColor};"></span>
+    <p style="font-size:14px;color:#78756a;line-height:1.5;margin:6px 0 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${data.description || 'No description provided.'}</p>
+    ${data.language ? `<div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:#a09d93;">
+      <span style="width:9px;height:9px;border-radius:50%;background-color:${langColor};"></span>
       <span style="font-weight:600;">${data.language}</span>
     </div>` : ''}
   </div>
-  <img src="${avatarUrl}" alt="${data.owner.login}" loading="lazy" style="width:56px;height:56px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 4px 12px -4px rgba(0,0,0,0.15);object-fit:cover;flex-shrink:0;" />
+  <img src="${avatarUrl}" alt="${data.owner.login}" loading="lazy" style="width:78px;height:78px;border-radius:12px;border:1px solid rgba(67,64,57,0.08);box-shadow:0 6px 16px -6px rgba(67,64,57,0.15);object-fit:cover;flex-shrink:0;" />
 </a>`;
         }
 
         renderError(repo: string) {
-            this.innerHTML = `<a href="https://github.com/${repo}" target="_blank" style="display:block;margin:20px 0;padding:16px 18px;border:1px solid #fecaca;border-radius:14px;background:#fef2f2;color:#dc2626;text-decoration:none;font-size:14px;">${repo} <span style="opacity:0.6;">(Failed to load)</span></a>`;
+            this.innerHTML = `<a href="https://github.com/${repo}" target="_blank" style="display:block;margin:20px 0;padding:14px 16px;border:1px solid #e0c8b8;border-radius:12px;background:#fdfaf6;color:#8b5c3a;text-decoration:none;font-size:13px;">${repo} <span style="opacity:0.6;">(Failed to load)</span></a>`;
         }
     }
 
