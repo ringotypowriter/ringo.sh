@@ -13,7 +13,7 @@ const snippets = (await getCollection('snippets')).sort(
     <div class="flex flex-col gap-8">
       {snippets.map((s) => (
         <article class="group">
-          <a href={`/snippets/${s.slug}`} class="block hover:no-underline">
+          <a href={`/snippets/${s.id}`} class="block hover:no-underline">
             <div class="flex justify-between items-baseline mb-2">
               <h2 class="text-lg font-medium group-hover:underline decoration-1 underline-offset-4">{s.data.title}</h2>
               <time class="font-mono text-xs opacity-50">{s.data.date.toISOString().split('T')[0]}</time>

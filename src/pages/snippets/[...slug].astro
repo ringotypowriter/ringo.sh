@@ -4,8 +4,12 @@ import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
     const customEntries = await getCollection("snippets");
+    console.log(
+        "📝 Entries:",
+        customEntries.map((e) => ({ id: e.id, slug: (e as any).slug })),
+    );
     return customEntries.map((entry) => ({
-        params: { slug: entry.slug },
+        params: { slug: entry.id },
         props: { entry },
     }));
 }
@@ -15,7 +19,6 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
 
 // Format date
 const formattedDate = entry.data.date.toISOString().split("T")[0];
@@ -31,7 +34,7 @@ const formattedDate = entry.data.date.toISOString().split("T")[0];
             {formattedDate} :: SYSTEM_LOG
         </div>
 
-        <Content />
+        <div set:html={entry.rendered?.html} />
     </article>
 
     <div class="mt-20">
