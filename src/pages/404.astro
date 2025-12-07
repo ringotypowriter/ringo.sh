@@ -1,0 +1,136 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404 - Page Not Found">
+  <div class="min-h-[70vh] flex items-center justify-center py-16">
+    <div class="text-center max-w-md mx-auto px-4">
+      <div class="relative inline-block mb-12">
+        <!-- Soft glow background -->
+        <div class="absolute inset-0 bg-stone-200/25 dark:bg-stone-800/20 rounded-3xl blur-2xl"></div>
+        
+        <!-- Blueprint container -->
+        <div class="relative blueprint-container bg-stone-100/30 dark:bg-stone-900/25 rounded-2xl p-8 border border-stone-300/25 dark:border-stone-700/25 shadow-sm">
+          <!-- Corner markers -->
+          <div class="corner-marker corner-tl"></div>
+          <div class="corner-marker corner-tr"></div>
+          <div class="corner-marker corner-bl"></div>
+          <div class="corner-marker corner-br"></div>
+          
+          <!-- Center crosshair -->
+          <div class="crosshair-h"></div>
+          <div class="crosshair-v"></div>
+          
+          <img 
+            src="/404easter.jpg" 
+            alt="404 Easter Egg"
+            class="w-64 h-64 mx-auto object-contain transition-all duration-300 hover:scale-105 relative z-10 shadow-lg"
+          />
+        </div>
+      </div>
+      
+      <div class="space-y-6">
+        <div class="font-mono text-sm opacity-50 tracking-wider">404</div>
+        <div class="font-mono text-xl opacity-80">Page Not Found</div>
+        <div class="pt-4">
+          <a 
+            href="/" 
+            class="inline-block font-mono text-sm opacity-60 hover:opacity-100 transition-opacity"
+          >
+            ← Return to Index
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Blueprint grid background */
+  .blueprint-container {
+    background-image: 
+      linear-gradient(rgba(100, 90, 80, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100, 90, 80, 0.06) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .blueprint-container {
+      background-image: 
+        linear-gradient(rgba(180, 170, 150, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(180, 170, 150, 0.06) 1px, transparent 1px);
+    }
+  }
+  
+  /* Corner markers */
+  .corner-marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px dashed rgba(100, 90, 80, 0.25);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .corner-marker {
+      border-color: rgba(180, 170, 150, 0.25);
+    }
+  }
+  
+  .corner-tl {
+    top: 12px;
+    left: 12px;
+    border-right: none;
+    border-bottom: none;
+  }
+  
+  .corner-tr {
+    top: 12px;
+    right: 12px;
+    border-left: none;
+    border-bottom: none;
+  }
+  
+  .corner-bl {
+    bottom: 12px;
+    left: 12px;
+    border-right: none;
+    border-top: none;
+  }
+  
+  .corner-br {
+    bottom: 12px;
+    right: 12px;
+    border-left: none;
+    border-top: none;
+  }
+  
+  /* Crosshair lines */
+  .crosshair-h,
+  .crosshair-v {
+    position: absolute;
+    background: rgba(100, 90, 80, 0.12);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .crosshair-h,
+    .crosshair-v {
+      background: rgba(180, 170, 150, 0.12);
+    }
+  }
+  
+  .crosshair-h {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-50%);
+  }
+  
+  .crosshair-v {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+  }
+</style>

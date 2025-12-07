@@ -98,11 +98,36 @@
         line-height: 1.4;
     }
 
-    /* Blockquote styling */
+    /* Blockquote styling - removed italic and added triangle quotes */
     blockquote {
         font-style: normal;
         border-left-width: 2px;
         padding-left: 1.5rem;
-        font-style: italic;
+    }
+
+    /* Custom quote marks - using triangle quotes 「」 instead of smart quotes */
+    blockquote p::before {
+        content: "「";
+        color: var(--tw-prose-quotes);
+        opacity: 0.7;
+    }
+    
+    blockquote p::after {
+        content: "」";
+        color: var(--tw-prose-quotes);
+        opacity: 0.7;
+    }
+    
+    /* Override default smart quotes for inline quotes */
+    q::before {
+        content: "「" !important;
+        color: var(--tw-prose-quotes);
+        opacity: 0.7;
+    }
+    
+    q::after {
+        content: "」" !important;
+        color: var(--tw-prose-quotes);
+        opacity: 0.7;
     }
 }

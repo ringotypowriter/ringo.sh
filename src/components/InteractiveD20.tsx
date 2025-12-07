@@ -4,7 +4,6 @@ import { Float, ContactShadows, Html, Billboard } from '@react-three/drei';
 import { Physics, RigidBody, MeshCollider, RapierRigidBody } from '@react-three/rapier';
 import * as THREE from 'three';
 
-// 🍎 苹果组件
 function Apple(props: any) {
     return (
         <RigidBody
