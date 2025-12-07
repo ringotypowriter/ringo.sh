@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { ExternalLink } from "lucide-astro";
 ---
 
 <Layout title="404 - Page Not Found">
@@ -12,20 +13,25 @@ import Layout from "../layouts/Layout.astro";
         <!-- Blueprint container -->
         <div class="relative blueprint-container bg-stone-100/30 dark:bg-stone-900/25 rounded-2xl p-8 border border-stone-300/25 dark:border-stone-700/25 shadow-sm">
           <!-- Corner markers -->
-          <div class="corner-marker corner-tl"></div>
           <div class="corner-marker corner-tr"></div>
           <div class="corner-marker corner-bl"></div>
-          <div class="corner-marker corner-br"></div>
-          
-          <!-- Center crosshair -->
-          <div class="crosshair-h"></div>
-          <div class="crosshair-v"></div>
           
           <img 
             src="/404easter.jpg" 
             alt="404 Easter Egg"
-            class="w-64 h-64 mx-auto object-contain transition-all duration-300 hover:scale-105 relative z-10 shadow-lg"
+            class="w-96 h-96 mx-auto object-contain transition-all duration-300 hover:scale-105 relative z-10 shadow-lg"
           />
+          
+          <!-- Artist credit icon -->
+          <a 
+            href="https://www.weibo.com/u/3722034814" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="absolute bottom-3 right-3 opacity-40 hover:opacity-100 transition-opacity duration-200 z-20"
+            title="Artwork by original artist"
+          >
+            <ExternalLink class="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />
+          </a>
         </div>
       </div>
       
@@ -76,13 +82,6 @@ import Layout from "../layouts/Layout.astro";
     }
   }
   
-  .corner-tl {
-    top: 12px;
-    left: 12px;
-    border-right: none;
-    border-bottom: none;
-  }
-  
   .corner-tr {
     top: 12px;
     right: 12px;
@@ -96,41 +95,5 @@ import Layout from "../layouts/Layout.astro";
     border-right: none;
     border-top: none;
   }
-  
-  .corner-br {
-    bottom: 12px;
-    right: 12px;
-    border-left: none;
-    border-top: none;
-  }
-  
-  /* Crosshair lines */
-  .crosshair-h,
-  .crosshair-v {
-    position: absolute;
-    background: rgba(100, 90, 80, 0.12);
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .crosshair-h,
-    .crosshair-v {
-      background: rgba(180, 170, 150, 0.12);
-    }
-  }
-  
-  .crosshair-h {
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    transform: translateY(-50%);
-  }
-  
-  .crosshair-v {
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    transform: translateX(-50%);
-  }
+
 </style>
