@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Github, X, Mail } from "lucide-astro";
+import { Github, X, Mail, Sun, Moon } from "lucide-astro";
 
 interface Props {
     title?: string;
@@ -12,8 +12,17 @@ const { title = "ringo.sh", description = "RingoTypowriter's Personal Site" } =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="">
     <head>
+        <script is:inline>
+            // Theme initialization - runs immediately to prevent flash
+            (function() {
+                const stored = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isDark = stored === 'dark' || (!stored && prefersDark);
+                document.documentElement.classList.toggle('dark', isDark);
+            })();
+        </script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/png" href="/favicon.png" />
@@ -35,21 +44,28 @@ const { title = "ringo.sh", description = "RingoTypowriter's Personal Site" } =
         <header class="mb-12 flex justify-between items-center">
             <a
                 href="/"
-                class="flex items-center gap-3 hover:no-underline group"
+                class="flex items-center gap-2 hover:no-underline group"
             >
                 <img
                     src="/avatar_me.jpg"
                     alt="Avatar"
                     class="w-10 h-10 rounded-full transition-all duration-500 border border-sand-text-light/20 dark:border-sand-text-dark/20"
                 />
-                <span class="text-xl font-mono font-bold">ringo.sh</span>
+                <span class="text-xl font-mono font-bold hidden sm:inline">ringo.sh</span>
             </a>
             <nav
-                class="flex gap-6 text-sm font-mono text-sand-text-light/80 dark:text-sand-text-dark/80"
+                class="flex items-center gap-4 sm:gap-6 text-sm font-mono text-sand-text-light/80 dark:text-sand-text-dark/80"
             >
-                <a href="/">Index</a>
                 <a href="/snippets">Snippets</a>
                 <a href="/projects">Projects</a>
+                <button
+                    id="theme-toggle"
+                    class="p-1.5 rounded-md hover:bg-sand-text-light/10 dark:hover:bg-sand-text-dark/10 transition-colors"
+                    aria-label="Toggle theme"
+                >
+                    <Sun size={16} class="hidden dark:block" />
+                    <Moon size={16} class="block dark:hidden" />
+                </button>
             </nav>
         </header>
 
@@ -93,5 +109,16 @@ const { title = "ringo.sh", description = "RingoTypowriter's Personal Site" } =
                 </a>
             </div>
         </footer>
+
+        <script>
+            // Theme toggle functionality
+            const toggle = document.getElementById('theme-toggle');
+            toggle?.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                // Dispatch event for components that need to react to theme changes
+                window.dispatchEvent(new CustomEvent('theme-change', { detail: { isDark } }));
+            });
+        </script>
     </body>
 </html>
