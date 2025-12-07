@@ -49,18 +49,20 @@ const recentSnippets = publishedSnippets
             url: "https://github.com/ringotypowriter/hikkoshi",
           },
         ].map((p: { name: string; desc: string; url: string }) => (
-          <li class="flex justify-between items-baseline group">
+          <li class="group">
             <a
               href={p.url}
               target="_blank"
-              class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors whitespace-nowrap"
+              class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline"
             >
-              {p.name}
+              <span class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors">
+                {p.name}
+              </span>
+              <span class="hidden sm:block text-sm opacity-60 dashed-line flex-grow mx-4" />
+              <span class="text-sm opacity-60 font-mono sm:text-right">
+                {p.desc}
+              </span>
             </a>
-            <span class="text-sm opacity-60 dashed-line flex-grow mx-4" />
-            <span class="text-sm opacity-60 font-mono text-right whitespace-nowrap">
-              {p.desc}
-            </span>
           </li>
         ))
       }

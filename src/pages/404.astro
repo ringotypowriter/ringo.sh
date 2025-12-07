@@ -19,7 +19,7 @@ import { ExternalLink } from "lucide-astro";
           <img 
             src="/404easter.jpg" 
             alt="404 Easter Egg"
-            class="w-96 h-96 mx-auto object-contain transition-all duration-300 hover:scale-105 relative z-10 shadow-lg"
+            class="w-96 h-96 mx-auto object-cover transition-all duration-300 hover:scale-105 relative z-10 shadow-lg rounded-xl dark:brightness-[0.65] dark:contrast-[1.3]"
           />
           
           <!-- Artist credit icon -->
@@ -60,12 +60,10 @@ import { ExternalLink } from "lucide-astro";
     background-size: 20px 20px;
   }
   
-  @media (prefers-color-scheme: dark) {
-    .blueprint-container {
-      background-image: 
-        linear-gradient(rgba(180, 170, 150, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(180, 170, 150, 0.06) 1px, transparent 1px);
-    }
+  :global(.dark) .blueprint-container {
+    background-image: 
+      linear-gradient(rgba(230, 228, 217, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(230, 228, 217, 0.08) 1px, transparent 1px);
   }
   
   /* Corner markers */
@@ -76,10 +74,8 @@ import { ExternalLink } from "lucide-astro";
     border: 2px dashed rgba(100, 90, 80, 0.25);
   }
   
-  @media (prefers-color-scheme: dark) {
-    .corner-marker {
-      border-color: rgba(180, 170, 150, 0.25);
-    }
+  :global(.dark) .corner-marker {
+    border-color: rgba(230, 228, 217, 0.25);
   }
   
   .corner-tr {
@@ -95,5 +91,4 @@ import { ExternalLink } from "lucide-astro";
     border-right: none;
     border-top: none;
   }
-
 </style>

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, ContactShadows, Html, Billboard } from '@react-three/drei';
 import { Physics, RigidBody, MeshCollider, RapierRigidBody } from '@react-three/rapier';
@@ -50,10 +50,14 @@ function Apple(props: any) {
 }
 
 // 📦 笼子组件 (D20)
-function Cage(props: any) {
+function Cage({ isDarkMode, ...props }: { isDarkMode: boolean } & any) {
     const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, 0), []);
     const rigidBodyRef = useRef<RapierRigidBody>(null);
     const [hovered, setHovered] = useState(false);
+
+    // Colors based on theme
+    const normalColor = isDarkMode ? '#E6E4D9' : '#434039';
+    const hoverColor = isDarkMode ? '#434039' : '#E6E4D9';
 
     // --- 交互与旋转逻辑 ---
     const isDragging = useRef(false);
@@ -151,7 +155,7 @@ function Cage(props: any) {
                 }}
             >
                 <meshStandardMaterial
-                    color={hovered ? '#E6E4D9' : '#434039'}
+                    color={hovered ? hoverColor : normalColor}
                     wireframe={true}
                     transparent
                     opacity={0.8}
@@ -164,6 +168,33 @@ function Cage(props: any) {
 }
 
 export default function InteractiveD20() {
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        // Check initial dark mode state
+        const checkDarkMode = () => {
+            setIsDarkMode(document.documentElement.classList.contains('dark'));
+        };
+        
+        checkDarkMode();
+
+        // Listen for theme changes from the toggle button
+        const handleThemeChange = (e: CustomEvent<{ isDark: boolean }>) => {
+            setIsDarkMode(e.detail.isDark);
+        };
+
+        // Also observe class changes on html element for system preference changes
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        window.addEventListener('theme-change', handleThemeChange as EventListener);
+        
+        return () => {
+            window.removeEventListener('theme-change', handleThemeChange as EventListener);
+            observer.disconnect();
+        };
+    }, []);
+
     return (
         <div className="h-64 w-full flex items-center justify-center cursor-grab active:cursor-grabbing select-none">
             <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
@@ -172,11 +203,11 @@ export default function InteractiveD20() {
                 <pointLight position={[-10, -10, -10]} />
 
                 <Physics gravity={[0, -9.8, 0]}>
-                    <Cage position={[0, 0, 0]} />
+                    <Cage position={[0, 0, 0]} isDarkMode={isDarkMode} />
                     <Apple />
                 </Physics>
 
-                <ContactShadows position={[0, -1.4, 0]} opacity={0.3} scale={3} blur={2} />
+                <ContactShadows position={[0, -1.4, 0]} opacity={0.3} scale={2} blur={2} />
             </Canvas>
         </div>
     );
