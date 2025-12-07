@@ -5,7 +5,8 @@ import Section from "../components/Section.astro";
 import InteractiveD20 from "../components/InteractiveD20";
 
 const allSnippets = await getCollection("snippets");
-const recentSnippets = allSnippets
+const publishedSnippets = allSnippets.filter(snippet => !snippet.data.wip);
+const recentSnippets = publishedSnippets
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 ---
@@ -19,7 +20,7 @@ const recentSnippets = allSnippets
   </div>
 
   <div class="prose prose-sand dark:prose-invert max-w-none mb-16">
-    <p class="text-lg leading-relaxed font-mono">Typewriter 🔺 Typowriter 🟢</p>
+    <p class="text-lg leading-relaxed font-mono">Typewriter ✕ Typowriter ◯</p>
     <p>I'm Ringo. I build software. Sometimes I write about it.</p>
   </div>
 
@@ -82,15 +83,20 @@ const recentSnippets = allSnippets
             >
               {post.data.title}
             </a>
-            <span class="text-xs font-mono opacity-40">
+            <time class="text-xs font-mono opacity-40" data-time={post.data.date.toISOString()}>
               {post.data.date.toISOString().split("T")[0]}
-            </span>
+            </time>
           </li>
         ))
       }
     </ul>
   </Section>
 </Layout>
+
+<script>
+  import { initTimeElements } from '../lib/formatTime';
+  initTimeElements();
+</script>
 
 <style>
   /* Custom dashed line for list items */

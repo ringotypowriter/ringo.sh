@@ -1,6 +1,6 @@
 ---
 title: "Hello World, Again << Echo"
-date: 2025-12-07
+date: 2025-12-07T15:09:00+08:00
 description: "Starting over. The previous iteration of this site was... heavy."
 ---
 
