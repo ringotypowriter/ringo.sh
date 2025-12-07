@@ -33,3 +33,76 @@
         @apply hover:underline decoration-1 underline-offset-4 cursor-pointer;
     }
 }
+
+/* Typography Plugin Configuration & Chinese Optimization */
+@plugin "@tailwindcss/typography";
+
+@utility prose-sand {
+    --tw-prose-body: var(--color-sand-text-light);
+    --tw-prose-headings: var(--color-sand-text-light);
+    --tw-prose-links: var(--color-sand-text-light);
+    --tw-prose-bold: var(--color-sand-text-light);
+    --tw-prose-counters: var(--color-sand-text-light);
+    --tw-prose-bullets: var(--color-sand-text-light);
+    --tw-prose-hr: color-mix(in srgb, var(--color-sand-text-light), transparent 80%);
+    --tw-prose-quotes: var(--color-sand-text-light);
+    --tw-prose-quote-borders: color-mix(in srgb, var(--color-sand-text-light), transparent 80%);
+    --tw-prose-captions: color-mix(in srgb, var(--color-sand-text-light), transparent 40%);
+    --tw-prose-code: var(--color-sand-text-light);
+    --tw-prose-pre-code: var(--color-sand-text-light);
+    --tw-prose-pre-bg: color-mix(in srgb, var(--color-sand-text-light), transparent 95%);
+    --tw-prose-th-borders: color-mix(in srgb, var(--color-sand-text-light), transparent 80%);
+    --tw-prose-td-borders: color-mix(in srgb, var(--color-sand-text-light), transparent 80%);
+
+    /* Dark mode overrides */
+    @variant dark {
+        --tw-prose-body: var(--color-sand-text-dark);
+        --tw-prose-headings: var(--color-sand-text-dark);
+        --tw-prose-links: var(--color-sand-text-dark);
+        --tw-prose-bold: var(--color-sand-text-dark);
+        --tw-prose-counters: var(--color-sand-text-dark);
+        --tw-prose-bullets: var(--color-sand-text-dark);
+        --tw-prose-hr: color-mix(in srgb, var(--color-sand-text-dark), transparent 80%);
+        --tw-prose-quotes: var(--color-sand-text-dark);
+        --tw-prose-quote-borders: color-mix(in srgb, var(--color-sand-text-dark), transparent 80%);
+        --tw-prose-captions: color-mix(in srgb, var(--color-sand-text-dark), transparent 40%);
+        --tw-prose-code: var(--color-sand-text-dark);
+        --tw-prose-pre-code: var(--color-sand-text-dark);
+        --tw-prose-pre-bg: color-mix(in srgb, var(--color-sand-text-dark), transparent 95%);
+        --tw-prose-th-borders: color-mix(in srgb, var(--color-sand-text-dark), transparent 80%);
+        --tw-prose-td-borders: color-mix(in srgb, var(--color-sand-text-dark), transparent 80%);
+    }
+
+    /* Chinese Typography Optimization */
+    /* Relaxed line height for better CJK readability */
+    p {
+        line-height: 1.8;
+        margin-bottom: 2em;
+        /* Increase space between paragraphs to simulate "spacer" */
+    }
+
+    /* Better spacing for lists */
+    li {
+        line-height: 1.8;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+
+    /* Heading spacing */
+    h1,
+    h2,
+    h3,
+    h4 {
+        margin-top: 2.5em;
+        margin-bottom: 1em;
+        line-height: 1.4;
+    }
+
+    /* Blockquote styling */
+    blockquote {
+        font-style: normal;
+        border-left-width: 2px;
+        padding-left: 1.5rem;
+        font-style: italic;
+    }
+}

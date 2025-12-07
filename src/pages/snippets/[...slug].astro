@@ -25,7 +25,7 @@ const formattedDate = entry.data.date.toISOString().split("T")[0];
     title={`${entry.data.title} | ringo.sh`}
     description={entry.data.description}
 >
-    <article class="prose prose-sand dark:prose-invert max-w-none">
+    <article class="prose prose-sand max-w-none">
         <h1 class="font-mono text-2xl mb-2">{entry.data.title}</h1>
         <div class="font-mono text-xs opacity-50 mb-12 dashed-bottom pb-4">
             {formattedDate} :: SYSTEM_LOG
