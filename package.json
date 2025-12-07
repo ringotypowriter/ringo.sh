@@ -7,7 +7,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "new": "bun run scripts/new-snippet.ts"
+    "new": "bun run scripts/new-snippet.ts",
+    "deploy": "astro build && wrangler pages deploy",
+    "cf-preview": "wrangler pages dev"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "wrangler": "^4.53.0"
   }
 }

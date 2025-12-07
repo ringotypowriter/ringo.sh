@@ -43,6 +43,9 @@ const languageColors: Record<string, string> = {
     TOML: "#9c4221",
     TSQL: "#e38c00",
     CSV: "#237346",
+    Vue: "#2c3e50",
+    Astro: "#ff5a03",
+    Svelte: "#ff3e00",
 
     // Extras you might care about
     Batchfile: "#C1F12E",
