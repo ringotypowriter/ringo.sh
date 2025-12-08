@@ -2,7 +2,7 @@
 
 /**
  * 快速创建新的 snippet 文章
- * 用法: bun run new:snippet --title="你的标题"
+ * 用法: bun run new --title="你的标题"
  */
 
 import { writeFile } from 'fs/promises';
@@ -14,7 +14,7 @@ const titleArg = args.find(arg => arg.startsWith('--title='));
 
 if (!titleArg) {
     console.error('❌ 错误：必须提供 --title 参数');
-    console.log('用法: bun run new:snippet --title="你的标题"');
+    console.log('用法: bun run new --title="你的标题"');
     process.exit(1);
 }
 

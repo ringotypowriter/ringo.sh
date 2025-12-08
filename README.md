@@ -23,39 +23,79 @@ wip: true  # 添加这行来标记为工作进行中
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
-
 ```text
 /
-├── public/
+├── public/                    # 静态资源
 │   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+│   └── logo.png
+├── src/
+│   ├── assets/               # 项目资源
+│   ├── components/           # 可复用 UI 组件 (Astro/React)
+│   ├── content/              # 内容集合
+│   │   └── snippets/         # Snippet 文章
+│   ├── layouts/              # 共享页面布局
+│   ├── lib/                  # 工具函数和共享逻辑
+│   ├── pages/                # 顶层页面和路由
+│   └── styles/               # 全局样式和 Tailwind 配置
+├── scripts/                  # 项目脚本
+│   └── new-snippet.ts        # 创建新 snippet 的脚本
+├── astro.config.mjs          # Astro 配置文件
+├── package.json              # 项目依赖和脚本
+├── tsconfig.json             # TypeScript 配置
+├── wrangler.toml             # Cloudflare Workers 配置
+└── .env                      # 环境变量
 ```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
 ## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+所有命令都在项目根目录下运行：
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+| `bun install`             | 安装依赖                                        |
+| `bun run dev`             | 启动本地开发服务器 (`localhost:4321`)            |
+| `bun run build`           | 构建生产版本到 `./dist/`                        |
+| `bun run preview`         | 本地预览构建结果                                |
+| `bun run scripts/new-snippet.ts` | 创建新的 snippet 文章                    |
+
+## 📝 Content Management
+
+### 添加新的 Snippet
+
+使用脚本创建新的 snippet：
+```bash
+bun run new --title="你的标题"
+```
+
+这会在 `src/content/snippets/` 目录下生成新的 markdown 文件，然后你可以编辑生成的文件。
+
+### Snippet Frontmatter
+
+每个 snippet 需要包含以下 frontmatter：
+```yaml
+---
+title: "标题"
+description: "描述"
+date: 2025-12-07T18:30:00+08:00
+---
+```
+
+## 🎨 Development
+
+- 使用 TypeScript 编写代码
+- 组件使用 PascalCase 命名
+- 工具函数使用 camelCase 命名
+- 保持代码简洁，遵循现有代码风格
+
+## 📦 Tech Stack
+
+- **Framework**: [Astro](https://astro.build/)
+- **Styling**: Tailwind CSS
+- **Content**: Markdown with frontmatter
+- **Deployment**: Cloudflare Pages
+- **Package Manager**: Bun
 
 ## 👀 Want to learn more?
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [Astro 文档](https://docs.astro.build)
+- [Tailwind CSS 文档](https://tailwindcss.com/docs)
