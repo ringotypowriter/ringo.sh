@@ -5,6 +5,7 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import { remarkGithubCard } from './src/lib/remark-github-card.ts';
 import { rehypeObsidianImage } from './src/lib/rehype-obsidian-image.ts';
+import { rehypeExternalLinks } from './src/lib/rehype-external-links.ts';
 import remarkCopyLinkedFiles from 'remark-copy-linked-files';
 
 // https://astro.build/config
@@ -36,6 +37,8 @@ export default defineConfig({
     rehypePlugins: [
       // 处理 Obsidian 的 ![[image]] 语法
       rehypeObsidianImage,
+      // 为外部链接添加 target="_blank" 和 rel="noopener noreferrer"
+      rehypeExternalLinks,
     ],
   },
   vite: {
