@@ -23,11 +23,40 @@ const { entry } = Astro.props;
 
 // Format date (fallback for SSR)
 const formattedDate = entry.data.date.toISOString().split("T")[0];
+
+const site = Astro.site ?? new URL("https://ringo.sh");
+const canonicalPath = `/snippets/${entry.id}`;
+const canonicalUrl = new URL(canonicalPath, site).toString();
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: entry.data.title,
+    description: entry.data.description ?? "",
+    datePublished: entry.data.date.toISOString(),
+    dateModified: entry.data.date.toISOString(),
+    author: {
+        "@type": "Person",
+        name: "Ringotypowriter",
+        url: site.toString(),
+    },
+    mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonicalUrl,
+    },
+    url: canonicalUrl,
+    image: new URL("/avatar_me.jpg", site).toString(),
+};
 ---
 
 <Layout
     title={`${entry.data.title} | ringo.sh`}
     description={entry.data.description}
+    canonicalPath={canonicalPath}
+    ogType="article"
+    publishedTime={entry.data.date}
+    modifiedTime={entry.data.date}
+    jsonLd={jsonLd}
 >
     <article class="prose prose-sand max-w-none">
         <h1 class="font-mono text-2xl mb-2">{entry.data.title}</h1>

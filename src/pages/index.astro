@@ -5,107 +5,133 @@ import Section from "../components/Section.astro";
 import InteractiveD20 from "../components/InteractiveD20";
 
 const allSnippets = await getCollection("snippets");
-const publishedSnippets = allSnippets.filter(snippet => !snippet.data.wip);
+const publishedSnippets = allSnippets.filter((snippet) => !snippet.data.wip);
 const recentSnippets = publishedSnippets
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+    .slice(0, 3);
 ---
 
 <Layout>
-  <div class="mb-16">
-    <InteractiveD20 client:load />
-    <p class="text-center font-mono text-xs opacity-50 mt-4">
-      [SYSTEM]: Icosahedron.tsx loaded. Spin me.
-    </p>
-  </div>
-
-  <div class="prose prose-sand dark:prose-invert max-w-none mb-16">
-    <p class="text-lg leading-relaxed font-mono">Typewriter ✕ Typowriter ◯</p>
-    <p>I'm Ringo. I build software. Sometimes I write about it.</p>
-  </div>
-
-  <Section title="Selected Work">
-    <ul class="space-y-4">
-      {
-        [
-          {
-            name: "Sparkify",
-            desc: "Native macOS tool for AI prompt management.",
-            url: "https://github.com/SkyPixel-Studio/Sparkify",
-          },
-          {
-            name: "flaten",
-            desc: "Lightweight speech-only subtitle generator (Zig).",
-            url: "https://github.com/ringotypowriter/flaten",
-          },
-          {
-            name: "ringotrack",
-            desc: "Art time tracker with GitHub-style contributions graph.",
-            url: "https://github.com/ringotypowriter/ringotrack",
-          },
-          {
-            name: "hikkoshi",
-            desc: "Zig-based CLI for isolated HOME environments.",
-            url: "https://github.com/ringotypowriter/hikkoshi",
-          },
-        ].map((p: { name: string; desc: string; url: string }) => (
-          <li class="group">
-            <a
-              href={p.url}
-              target="_blank"
-              class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline"
-            >
-              <span class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors">
-                {p.name}
-              </span>
-              <span class="hidden sm:block text-sm opacity-60 dashed-line flex-grow mx-4" />
-              <span class="text-sm opacity-60 font-mono sm:text-right">
-                {p.desc}
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <div class="mt-6 text-right">
-      <a href="/projects" class="text-sm font-mono opacity-60 hover:opacity-100"
-        >View all -></a
-      >
+    <div class="mb-16">
+        <InteractiveD20 client:load />
+        <p class="text-center font-mono text-xs opacity-50 mt-4">
+            [SYSTEM]: Icosahedron.tsx loaded. Spin me.
+        </p>
     </div>
-  </Section>
 
-  <Section title="Recent Snippets" className="mt-20">
-    <ul class="space-y-4">
-      {
-        recentSnippets.map((post) => (
-          <li class="flex justify-between items-baseline">
+    <div class="prose prose-sand dark:prose-invert max-w-none mb-16">
+        <p class="text-lg leading-relaxed font-mono">
+            Typewriter ✕ Typowriter ◯
+        </p>
+        <p>I'm Ringo. I build software. Sometimes I write about it.</p>
+    </div>
+
+    <Section title="Selected Work">
+        <ul class="space-y-4">
+            <li class="group">
+                <a
+                    href="https://echooo.ringo.sh/about"
+                    target="_blank"
+                    class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline"
+                >
+                    <span
+                        class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors"
+                    >
+                        Echooo ↗
+                    </span>
+                    <span
+                        class="hidden sm:block text-sm opacity-60 dashed-line flex-grow mx-4"
+                    ></span>
+                    <span class="text-sm opacity-60 font-mono sm:text-right">
+                        AI-native modern writing tools that respects your taste.
+                    </span>
+                </a>
+            </li>
+            {
+                [
+                    {
+                        name: "Sparkify",
+                        desc: "Native macOS tool for AI prompt management.",
+                        url: "https://github.com/SkyPixel-Studio/Sparkify",
+                    },
+                    {
+                        name: "flaten",
+                        desc: "Lightweight speech-only subtitle generator (Zig).",
+                        url: "https://github.com/ringotypowriter/flaten",
+                    },
+                    {
+                        name: "ringotrack",
+                        desc: "Art time tracker with GitHub-style contributions graph.",
+                        url: "https://github.com/ringotypowriter/ringotrack",
+                    },
+                    {
+                        name: "hikkoshi",
+                        desc: "Zig-based CLI for isolated HOME environments.",
+                        url: "https://github.com/ringotypowriter/hikkoshi",
+                    },
+                ].map((p: { name: string; desc: string; url: string }) => (
+                    <li class="group">
+                        <a
+                            href={p.url}
+                            target="_blank"
+                            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline"
+                        >
+                            <span class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors">
+                                {p.name}
+                            </span>
+                            <span class="hidden sm:block text-sm opacity-60 dashed-line flex-grow mx-4" />
+                            <span class="text-sm opacity-60 font-mono sm:text-right">
+                                {p.desc}
+                            </span>
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+        <div class="mt-6 text-right">
             <a
-              href={`/snippets/${post.id}`}
-              class="hover:text-sand-text-light dark:hover:text-sand-text-dark"
+                href="/projects"
+                class="text-sm font-mono opacity-60 hover:opacity-100"
+                >View all -></a
             >
-              {post.data.title}
-            </a>
-            <time class="text-xs font-mono opacity-40" data-time={post.data.date.toISOString()}>
-              {post.data.date.toISOString().split("T")[0]}
-            </time>
-          </li>
-        ))
-      }
-    </ul>
-  </Section>
+        </div>
+    </Section>
+
+    <Section title="Recent Snippets" className="mt-20">
+        <ul class="space-y-4">
+            {
+                recentSnippets.map((post) => (
+                    <li class="flex justify-between items-baseline">
+                        <a
+                            href={`/snippets/${post.id}`}
+                            class="hover:text-sand-text-light dark:hover:text-sand-text-dark"
+                        >
+                            {post.data.title}
+                        </a>
+                        <time
+                            class="text-xs font-mono opacity-40"
+                            data-time={post.data.date.toISOString()}
+                        >
+                            {post.data.date.toISOString().split("T")[0]}
+                        </time>
+                    </li>
+                ))
+            }
+        </ul>
+    </Section>
 </Layout>
 
 <script>
-  import { initTimeElements } from '../lib/formatTime';
-  initTimeElements();
+    import { initTimeElements } from "../lib/formatTime";
+    initTimeElements();
 </script>
 
 <style>
-  /* Custom dashed line for list items */
-  .dashed-line {
-    border-bottom: 1px dashed currentColor;
-    opacity: 0.2;
-    position: relative;
-    top: -5px;
-  }
+    /* Custom dashed line for list items */
+    .dashed-line {
+        border-bottom: 1px dashed currentColor;
+        opacity: 0.2;
+        position: relative;
+        top: -5px;
+    }
 </style>

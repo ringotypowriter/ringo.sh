@@ -10,6 +10,10 @@ import remarkCopyLinkedFiles from 'remark-copy-linked-files';
 
 // https://astro.build/config
 export default defineConfig({
+  site: (() => {
+    const raw = process.env.SITE_URL ?? process.env.CF_PAGES_URL ?? 'https://ringo.sh';
+    return raw.startsWith('http://') || raw.startsWith('https://') ? raw : `https://${raw}`;
+  })(),
   integrations: [react()],
   markdown: {
     remarkPlugins: [
