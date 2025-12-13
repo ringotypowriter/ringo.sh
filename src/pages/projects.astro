@@ -3,99 +3,101 @@ import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 
 const projects = [
-  {
-    name: "Sparkify",
-    desc: "Native macOS tool for AI prompt management.",
-    stack: "Swift, SwiftUI",
-    url: "https://github.com/SkyPixel-Studio/Sparkify",
-  },
-  {
-    name: "flaten",
-    desc: "Lightweight speech-only subtitle generator for low-resource machines.",
-    stack: "Zig",
-    url: "https://github.com/ringotypowriter/flaten",
-  },
-  {
-    name: "ringotrack",
-    desc: "A painting time tracking tool for artists, using a GitHub-style calendar heat map.",
-    stack: "Dart",
-    url: "https://github.com/ringotypowriter/ringotrack",
-  },
-  {
-    name: "hikkoshi",
-    desc: "A tiny Zig-based CLI that runs commands under profile-specific HOME environments.",
-    stack: "Zig",
-    url: "https://github.com/ringotypowriter/hikkoshi",
-  },
-  {
-    name: "mcp-randoom",
-    desc: "MCP server for random decision making.",
-    stack: "TypeScript, MCP",
-    url: "https://github.com/ringotypowriter/mcp-randoom",
-  },
-  {
-    name: "ringo.sh",
-    desc: "My personal website and blog.",
-    stack: "Astro",
-    url: "https://github.com/ringotypowriter/ringo.sh",
-  },
-  {
-    name: "mcp-server-toodo",
-    desc: "A to-do list manager server using the MCP protocol.",
-    stack: "TypeScript",
-    url: "https://github.com/ringotypowriter/mcp-server-toodo",
-  },
-  {
-    name: "zig-traykit",
-    desc: "Native macOS tray (menu bar) app in Zig, with Bun/TypeScript bindings.",
-    stack: "Zig, TypeScript",
-    url: "https://github.com/ringotypowriter/zig-traykit",
-  },
-  {
-    name: "La-Pluma",
-    desc: "Tool for creating interactive fiction content within Minecraft.",
-    stack: "Java",
-    url: "https://github.com/ringotypowriter/La-Pluma",
-  },
-  {
-    name: "FlowDown (Contributor)",
-    desc: "Visual programming environment for AI.",
-    stack: "Swift",
-    url: "https://github.com/Lakr233/FlowDown",
-  },
+    {
+        name: "Sparkify",
+        desc: "Native macOS tool for AI prompt management.",
+        stack: "Swift, SwiftUI",
+        url: "https://github.com/SkyPixel-Studio/Sparkify",
+    },
+    {
+        name: "flaten",
+        desc: "Lightweight speech-only subtitle generator for low-resource machines.",
+        stack: "Zig",
+        url: "https://github.com/ringotypowriter/flaten",
+    },
+    {
+        name: "ringotrack",
+        desc: "A painting time tracking tool for artists, using a GitHub-style calendar heat map.",
+        stack: "Dart",
+        url: "https://github.com/ringotypowriter/ringotrack",
+    },
+    {
+        name: "hikkoshi",
+        desc: "A tiny Zig-based CLI that runs commands under profile-specific HOME environments.",
+        stack: "Zig",
+        url: "https://github.com/ringotypowriter/hikkoshi",
+    },
+    {
+        name: "mcp-randoom",
+        desc: "MCP server for random decision making.",
+        stack: "TypeScript, MCP",
+        url: "https://github.com/ringotypowriter/mcp-randoom",
+    },
+    {
+        name: "ringo.sh",
+        desc: "My personal website and blog.",
+        stack: "Astro",
+        url: "https://github.com/ringotypowriter/ringo.sh",
+    },
+    {
+        name: "mcp-server-toodo",
+        desc: "A to-do list manager server using the MCP protocol.",
+        stack: "TypeScript",
+        url: "https://github.com/ringotypowriter/mcp-server-toodo",
+    },
+    {
+        name: "zig-traykit",
+        desc: "Native macOS tray (menu bar) app in Zig, with Bun/TypeScript bindings.",
+        stack: "Zig, TypeScript",
+        url: "https://github.com/ringotypowriter/zig-traykit",
+    },
+    {
+        name: "La-Pluma",
+        desc: "Tool for creating interactive fiction content within Minecraft.",
+        stack: "Java",
+        url: "https://github.com/ringotypowriter/La-Pluma",
+    },
+    {
+        name: "FlowDown (Contributor)",
+        desc: "Visual programming environment for AI.",
+        stack: "Swift",
+        url: "https://github.com/Lakr233/FlowDown",
+    },
 ];
 ---
 
 <Layout title="Projects | ringo.sh">
-  <Section title="Projects">
-    <div class="grid gap-12">
-      {
-        projects.map((p) => (
-          <article>
-            <div class="flex justify-between items-baseline mb-2">
-              <a
-                href={p.url}
-                target="_blank"
-                class="text-lg font-bold hover:underline decoration-1 underline-offset-4"
-              >
-                {p.name}
-              </a>
-              <span class="font-mono text-xs opacity-50">{p.stack}</span>
-            </div>
-            <p class="opacity-80 leading-relaxed">{p.desc}</p>
-          </article>
-        ))
-      }
-    </div>
+    <Section title="Projects">
+        <div class="grid gap-12">
+            {
+                projects.map((p) => (
+                    <article>
+                        <div class="flex justify-between items-baseline mb-2">
+                            <a
+                                href={p.url}
+                                target="_blank"
+                                class="text-lg font-bold hover:underline decoration-1 underline-offset-4"
+                            >
+                                {p.name}
+                            </a>
+                            <span class="font-mono text-xs opacity-50">
+                                {p.stack}
+                            </span>
+                        </div>
+                        <p class="opacity-80 leading-relaxed">{p.desc}</p>
+                    </article>
+                ))
+            }
+        </div>
 
-    <div class="mt-12 text-right">
-      <a
-        href="https://github.com/ringotypowriter?tab=repositories"
-        target="_blank"
-        class="font-mono text-sm opacity-60 hover:opacity-100 hover:underline underline-offset-4"
-      >
-        More on GitHub -&gt;
-      </a>
-    </div>
-  </Section>
+        <div class="mt-12 text-right">
+            <a
+                href="https://github.com/ringotypowriter?tab=repositories"
+                target="_blank"
+                class="font-mono text-sm opacity-60 hover:opacity-100 hover:underline underline-offset-4"
+            >
+                More on GitHub -&gt;
+            </a>
+        </div>
+    </Section>
 </Layout>
