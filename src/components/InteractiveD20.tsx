@@ -170,6 +170,16 @@ function Cage({ isDarkMode, ...props }: { isDarkMode: boolean } & any) {
 export default function InteractiveD20() {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
+    const applePositions: [number, number, number][] = useMemo(() => {
+        // Keep deterministic positions to avoid hydration flicker.
+        return [
+            [-0.25, 0.35, 0.15],
+            [0.25, 0.45, -0.1],
+            [-0.1, 0.65, -0.25],
+            [0.1, 0.55, 0.25]
+        ];
+    }, []);
+
     useEffect(() => {
         // Check initial dark mode state
         const checkDarkMode = () => {
@@ -204,7 +214,9 @@ export default function InteractiveD20() {
 
                 <Physics gravity={[0, -9.8, 0]}>
                     <Cage position={[0, 0, 0]} isDarkMode={isDarkMode} />
-                    <Apple />
+                    {applePositions.map((position, index) => (
+                        <Apple key={index} position={position} />
+                    ))}
                 </Physics>
 
                 <ContactShadows position={[0, -1.4, 0]} opacity={0.3} scale={2} blur={2} />
