@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import { Github, X, Mail, Sun, Moon } from "lucide-astro";
+import SnowToggle from "../components/SnowToggle";
+import Snowfall from "../components/Snowfall";
 
 interface Props {
     title?: string;
@@ -152,6 +154,9 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
     <body
         class="max-w-3xl mx-auto px-6 py-12 md:py-20 flex flex-col min-h-screen"
     >
+        <!-- Snowfall Effect -->
+        <Snowfall client:load />
+
         <header class="mb-12 flex justify-between items-center">
             <a
                 href="/"
@@ -169,6 +174,7 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
             >
                 <a href="/snippets">Snippets</a>
                 <a href="/projects">Projects</a>
+                <SnowToggle client:load />
                 <button
                     id="theme-toggle"
                     class="p-1.5 rounded-md hover:bg-sand-text-light/10 dark:hover:bg-sand-text-dark/10 transition-colors"
