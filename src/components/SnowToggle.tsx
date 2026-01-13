@@ -55,6 +55,15 @@ export default function SnowToggle({ onChange }: SnowToggleProps) {
     }
   }, [isActive, onChange]);
 
+  // Listen for toggle-snow event from mobile menu
+  useEffect(() => {
+    const handleToggle = () => {
+      toggle();
+    };
+    window.addEventListener("toggle-snow", handleToggle);
+    return () => window.removeEventListener("toggle-snow", handleToggle);
+  }, [toggle]);
+
   return (
     <button
       onClick={toggle}
