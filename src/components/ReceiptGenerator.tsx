@@ -131,6 +131,8 @@ interface EditableTextProps {
   placeholder?: string;
   value: string;
   onChange?: (value: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 function EditableText({
@@ -138,6 +140,8 @@ function EditableText({
   placeholder = "",
   value,
   onChange,
+  onFocus,
+  onBlur,
 }: EditableTextProps) {
   const elementRef = useRef<HTMLDivElement>(null);
   const lastValueRef = useRef(value);
@@ -171,19 +175,31 @@ function EditableText({
     onChange?.(newValue);
   }, [onChange]);
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.currentTarget.blur();
+    }
+  }, []);
+
   return (
     <div
       ref={elementRef}
       contentEditable
       suppressContentEditableWarning
       onInput={handleInput}
-      onFocus={() => { isFocusedRef.current = true; }}
+      onKeyDown={handleKeyDown}
+      onFocus={() => {
+        isFocusedRef.current = true;
+        onFocus?.();
+      }}
       onBlur={() => {
         isFocusedRef.current = false;
         // Sync on blur to catch any external changes
         if (elementRef.current && elementRef.current.textContent !== value) {
           elementRef.current.textContent = value;
         }
+        onBlur?.();
       }}
       className={`outline-none focus:outline-none empty:before:content-[attr(data-placeholder)] empty:before:text-sand-text-light/40 ${className}`}
       data-placeholder={placeholder}
@@ -251,14 +267,27 @@ export default function ReceiptGenerator() {
     { id: generateId(), name: "GREEN TEA", qty: "1", price: "$4.00" },
   ]);
 
-  // Totals
+  // Parse price string to number (extract numeric part)
+  const parsePrice = (price: string): number => {
+    const cleaned = price.replace(/[^0-9.]/g, "");
+    const num = parseFloat(cleaned);
+    return isNaN(num) ? 0 : num;
+  };
+
+  // Calculate total from all item prices (fixed, auto-calculated)
+  const calculatedTotal = items.reduce((sum, item) => sum + parsePrice(item.price), 0);
+  const formattedTotal = `$${calculatedTotal.toFixed(2)}`;
+
+  // Totals (subtotal and tax are still editable, total is auto-calculated)
   const [subtotal, setSubtotal] = useState("$22.50");
   const [tax, setTax] = useState("$1.80");
-  const [total, setTotal] = useState("$24.30");
 
   const updateSetting = (key: keyof ReceiptSettings, value: string) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
   };
+
+  // Track which item is being edited (shows delete button)
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
 
   const addItem = () => {
     setItems((prev) => [
@@ -379,10 +408,9 @@ export default function ReceiptGenerator() {
               value={settings.itemLabel}
               onChange={(v) => updateSetting("itemLabel", v)}
             />
-            <EditableText
-              value={settings.amountLabel}
-              onChange={(v) => updateSetting("amountLabel", v)}
-            />
+            <div className="select-none">
+              {settings.amountLabel}
+            </div>
           </div>
 
           <div className="space-y-1 text-[11px] text-sand-text-light/90">
@@ -396,6 +424,8 @@ export default function ReceiptGenerator() {
                     <EditableText
                       value={item.name}
                       onChange={(v) => updateItem(item.id, "name", v)}
+                      onFocus={() => setEditingItemId(item.id)}
+                      onBlur={() => setEditingItemId(null)}
                     />
                   </div>
                 </div>
@@ -404,14 +434,21 @@ export default function ReceiptGenerator() {
                     className="tabular-nums select-none"
                     value={item.price}
                     onChange={(v) => updateItem(item.id, "price", v)}
+                    onFocus={() => setEditingItemId(item.id)}
+                    onBlur={() => setEditingItemId(null)}
                   />
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="opacity-0 group-hover/item:opacity-100 text-red-400 hover:text-red-600 transition-all cursor-pointer select-none -translate-x-2 group-hover/item:translate-x-0"
-                    title="Remove item"
-                  >
-                    ×
-                  </button>
+                  {editingItemId === item.id && (
+                    <button
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        removeItem(item.id);
+                      }}
+                      className="text-red-400 hover:text-red-600 transition-colors cursor-pointer select-none"
+                      title="Remove item"
+                    >
+                      ×
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
@@ -452,11 +489,9 @@ export default function ReceiptGenerator() {
               value={settings.totalLabel}
               onChange={(v) => updateSetting("totalLabel", v)}
             />
-            <EditableText
-              className="tabular-nums"
-              value={total}
-              onChange={setTotal}
-            />
+            <div className="tabular-nums select-none">
+              {formattedTotal}
+            </div>
           </div>
         </section>
 
