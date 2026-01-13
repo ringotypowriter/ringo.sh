@@ -7,6 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "new": "bun run scripts/new-snippet.ts",
     "deploy": "astro build && wrangler pages deploy",
     "cf-preview": "wrangler pages dev"

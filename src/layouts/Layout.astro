@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Github, X, Mail, Sun, Moon } from "lucide-astro";
+import { Github, Mail, Sun, Moon } from "lucide-astro";
 import SnowToggle from "../components/SnowToggle";
 import Snowfall from "../components/Snowfall";
 
@@ -174,6 +174,7 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
             >
                 <a href="/snippets">Snippets</a>
                 <a href="/projects">Projects</a>
+                <a href="/playground">Playground</a>
                 <SnowToggle client:load />
                 <button
                     id="theme-toggle"
@@ -186,7 +187,7 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
             </nav>
         </header>
 
-        <main class="flex-grow">
+        <main class="grow">
             <slot />
         </main>
 
@@ -212,10 +213,12 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
                     href="https://x.com/ringoo95"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="hover:opacity-100 transition-opacity"
+                    class="hover:opacity-100 transition-opacity flex items-center"
                     aria-label="X"
                 >
-                    <X size={16} />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 text-sand-text-light dark:text-white" fill="currentColor">
+                        <path d="M321.8 373.1h36.6L190 137.5H153.4ZM391 389.9H310.6L237 285.1 144.8 389.9H121L226.4 270 121 120h80.4l69.7 99.2L358.4 120h23.8L281.7 234.3Z" />
+                    </svg>
                 </a>
                 <a
                     href="mailto:connect@ringo.sh"

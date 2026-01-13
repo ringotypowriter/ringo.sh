@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+
+interface Tool {
+    name: string;
+    url: string;
+    desc: string;
+}
+
+const tools: Tool[] = [];
+---
+
+<Layout title="Playground | ringo.sh">
+    <Section title="Playground">
+        <p class="mb-8 opacity-80">
+            A collection of small web tools I've built for fun and productivity.
+        </p>
+
+        <div class="grid gap-6">
+            {
+                tools.map((tool) => (
+                    <a
+                        href={tool.url}
+                        class="block p-6 border border-sand-text-light/20 dark:border-sand-text-dark/20 rounded-lg hover:bg-sand-text-light/5 dark:hover:bg-sand-text-dark/5 transition-colors"
+                    >
+                        <div class="flex justify-between items-baseline mb-2">
+                            <span class="text-lg font-bold">{tool.name}</span>
+                            <span class="font-mono text-xs opacity-50">→</span>
+                        </div>
+                        <p class="opacity-80">{tool.desc}</p>
+                    </a>
+                ))
+            }
+        </div>
+    </Section>
+</Layout>
