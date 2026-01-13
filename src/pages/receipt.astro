@@ -1,0 +1,29 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ReceiptGenerator from "../components/ReceiptGenerator";
+---
+
+<Layout title="Receipt Generator | ringo.sh">
+  <div class="receipt-page">
+    <ReceiptGenerator client:load />
+  </div>
+  <style>
+    .receipt-page {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    @media (max-width: 380px) {
+      .receipt-page :global(.receipt-content) {
+        transform: scale(0.92);
+        transform-origin: top center;
+      }
+    }
+    @media (max-width: 340px) {
+      .receipt-page :global(.receipt-content) {
+        transform: scale(0.85);
+        transform-origin: top center;
+      }
+    }
+  </style>
+</Layout>
