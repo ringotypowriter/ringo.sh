@@ -333,8 +333,8 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
 
             // Mobile snow toggle click
             document.addEventListener('click', (e) => {
-                const target = e.target as HTMLElement;
-                if (target.closest('#mobile-snow-toggle')) {
+                const target = e.target;
+                if (target instanceof Element && target.closest('#mobile-snow-toggle')) {
                     const saved = localStorage.getItem("snow-toggle");
                     let isActive = saved === "true";
                     if (saved === null) {
@@ -349,7 +349,8 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
 
             // Close menu when clicking outside
             document.addEventListener('click', (e) => {
-                if (!mobileMenu?.contains(e.target as Node) && !mobileMenuToggle?.contains(e.target as Node)) {
+                const target = e.target instanceof Node ? e.target : null;
+                if (!mobileMenu?.contains(target) && !mobileMenuToggle?.contains(target)) {
                     mobileMenu?.classList.add('hidden');
                 }
             });
