@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 # Obsidian
 .obsidian/
+.alma-snapshots

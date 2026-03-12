@@ -1,142 +1,307 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "../layouts/Layout.astro";
-import Section from "../components/Section.astro";
-import InteractiveD20 from "../components/InteractiveD20";
+import { getCollection } from 'astro:content';
+import InteractiveD20 from '../components/InteractiveD20';
+import Section from '../components/Section.astro';
+import Layout from '../layouts/Layout.astro';
 
-const allSnippets = await getCollection("snippets");
+const allSnippets = await getCollection('snippets');
 const publishedSnippets = allSnippets.filter((snippet) => !snippet.data.wip);
 const recentSnippets = publishedSnippets
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-    .slice(0, 3);
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const featuredProjects = [
+  {
+    label: 'Writing System',
+    name: 'Echooo',
+    desc: 'AI-native writing software for people who care about rhythm, structure, and editorial taste.',
+    detail:
+      'Built to keep drafting, shaping, and collaboration inside one calm text-first surface instead of a pile of chat windows.',
+    stack: 'TypeScript, TanStack Start',
+    url: 'https://echooo.ringo.sh',
+  },
+  {
+    label: 'Native Utility',
+    name: 'Sparkify',
+    desc: 'A macOS prompt workspace that treats reusable prompts like real working material, not scraps in a note app.',
+    detail:
+      'Small, local-feeling, and opinionated about keeping prompt libraries searchable, editable, and worth maintaining.',
+    stack: 'Swift, SwiftUI',
+    url: 'https://github.com/SkyPixel-Studio/Sparkify',
+  },
+  {
+    label: 'Sharp CLI',
+    name: 'flaten',
+    desc: 'A lightweight subtitle generator focused on speech-to-text jobs for low-resource machines.',
+    detail:
+      'Written in Zig to stay lean and direct when the requirement is simple: turn audio into usable captions with minimal drag.',
+    stack: 'Zig',
+    url: 'https://github.com/ringotypowriter/flaten',
+  },
+] as const;
+
+const otherProjects = [
+  {
+    name: 'ringotrack',
+    desc: 'Painting time tracker with a GitHub-style heat map for artists.',
+    url: 'https://github.com/ringotypowriter/ringotrack',
+  },
+  {
+    name: 'hikkoshi',
+    desc: 'Tiny Zig CLI for profile-specific HOME environments.',
+    url: 'https://github.com/ringotypowriter/hikkoshi',
+  },
+  {
+    name: 'Memoh',
+    desc: 'Contributor on a structured long-memory AI agent system.',
+    url: 'https://github.com/memohai/Memoh',
+  },
+] as const;
 ---
 
-<Layout>
-    <div class="mb-16">
-        <InteractiveD20 client:load />
-        <p class="text-center font-mono text-xs opacity-50 mt-4">
-            [SYSTEM]: Icosahedron.tsx loaded. Spin me.
-        </p>
-    </div>
+<Layout
+  title='ringo.sh | Independent Builder'
+  description='Ringo builds writing tools, native utilities, and compact protocol-shaped software with strong taste.'
+>
+  <section class='hero-layout mb-20 grid gap-10 items-center'>
+    <div class='space-y-6'>
+      <p class='font-mono text-xs uppercase tracking-[0.28em] opacity-55'>
+        Independent builder // writing tools // native oddities
+      </p>
 
-    <div class="prose prose-sand dark:prose-invert max-w-none mb-16">
-        <p class="text-lg leading-relaxed font-mono">
-            Typewriter ✕ Typowriter ◯
+      <div class='space-y-4'>
+        <p class='font-mono text-sm opacity-60'>Typewriter x Typowriter</p>
+        <h1 class='max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl sm:leading-[1.05]'>
+          Software with taste, built to be used, not demoed.
+        </h1>
+        <p class='max-w-2xl text-base leading-8 opacity-80 sm:text-lg'>
+          I make writing tools, macOS utilities, and small protocol-shaped systems. The thread across all of them is
+          simple: clear text, sharp interaction, and products that still feel intentional after the novelty wears off.
         </p>
-        <p>I'm Ringo. I build software. Sometimes I write about it.</p>
-    </div>
+      </div>
 
-    <Section title="Selected Work">
-        <ul class="space-y-4">
-            <li class="group">
-                <a
-                    href="https://echooo.ringo.sh"
-                    target="_blank"
-                    class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline"
-                >
-                    <span
-                        class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors"
-                    >
-                        Echooo ↗
-                    </span>
-                    <span
-                        class="hidden sm:block text-sm opacity-60 dashed-line grow mx-4"
-                    ></span>
-                    <span class="text-sm opacity-60 font-mono sm:text-right">
-                        AI-native modern writing tool that respects your taste.
-                    </span>
-                </a>
-            </li>
-            {
-                [
-                    {
-                        name: "Sparkify",
-                        desc: "Native macOS tool for AI prompt management.",
-                        url: "https://github.com/SkyPixel-Studio/Sparkify",
-                    },
-                    {
-                        name: "flaten",
-                        desc: "Lightweight speech-only subtitle generator (Zig).",
-                        url: "https://github.com/ringotypowriter/flaten",
-                    },
-                    {
-                        name: "ringotrack",
-                        desc: "Art time tracker with GitHub-style contributions graph.",
-                        url: "https://github.com/ringotypowriter/ringotrack",
-                    },
-                    {
-                        name: "hikkoshi",
-                        desc: "Zig-based CLI for isolated HOME environments.",
-                        url: "https://github.com/ringotypowriter/hikkoshi",
-                    },
-                    {
-                        name: "Memoh",
-                        desc: "Containerized AI agent system (Contributor).",
-                        url: "https://github.com/memohai/Memoh",
-                    },
-                ].map((p: { name: string; desc: string; url: string }) => (
-                    <li class="group">
-                        <a
-                            href={p.url}
-                            target="_blank"
-                            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline"
-                        >
-                            <span class="font-bold group-hover:text-sand-text-light dark:group-hover:text-sand-text-dark transition-colors">
-                                {p.name}
-                            </span>
-                            <span class="hidden sm:block text-sm opacity-60 dashed-line grow mx-4" />
-                            <span class="text-sm opacity-60 font-mono sm:text-right">
-                                {p.desc}
-                            </span>
-                        </a>
-                    </li>
-                ))
-            }
-        </ul>
-        <div class="mt-6 text-right">
-            <a
-                href="/projects"
-                class="text-sm font-mono opacity-60 hover:opacity-100"
-                >View all -></a
-            >
+      <div class='flex flex-wrap gap-3 font-mono text-sm'>
+        <a class='home-link home-link--solid' href='/projects'>Selected work</a>
+        <a class='home-link' href='/snippets'>Recent writing</a>
+        <a class='home-link' href='https://echooo.ringo.sh' target='_blank' rel='noopener noreferrer'>Open Echooo ↗</a>
+      </div>
+
+      <dl class='grid gap-3 sm:grid-cols-3'>
+        <div class='signal-card rounded-2xl p-4'>
+          <dt class='font-mono text-[11px] uppercase tracking-[0.22em] opacity-45'>Build Bias</dt>
+          <dd class='mt-2 text-sm leading-6 opacity-80'>Text-first tools and interfaces that explain themselves.</dd>
         </div>
-    </Section>
+        <div class='signal-card rounded-2xl p-4'>
+          <dt class='font-mono text-[11px] uppercase tracking-[0.22em] opacity-45'>What I Avoid</dt>
+          <dd class='mt-2 text-sm leading-6 opacity-80'>Dashboard sludge, fake complexity, and generic AI gloss.</dd>
+        </div>
+        <div class='signal-card rounded-2xl p-4'>
+          <dt class='font-mono text-[11px] uppercase tracking-[0.22em] opacity-45'>Preferred Output</dt>
+          <dd class='mt-2 text-sm leading-6 opacity-80'>Useful software with a clear point of view.</dd>
+        </div>
+      </dl>
+    </div>
 
-    <Section title="Recent Snippets" className="mt-20">
-        <ul class="space-y-4">
-            {
-                recentSnippets.map((post) => (
-                    <li class="flex justify-between items-baseline">
-                        <a
-                            href={`/snippets/${post.id}`}
-                            class="hover:text-sand-text-light dark:hover:text-sand-text-dark"
-                        >
-                            {post.data.title}
-                        </a>
-                        <time
-                            class="text-xs font-mono opacity-40"
-                            data-time={post.data.date.toISOString()}
-                        >
-                            {post.data.date.toISOString().split("T")[0]}
-                        </time>
-                    </li>
-                ))
-            }
+    <div class='hero-console'>
+      <InteractiveD20 client:load />
+      <div class='mt-3 flex flex-wrap items-center justify-between gap-2 font-mono text-xs opacity-60'>
+        <p>[SYSTEM]: Icosahedron.tsx loaded.</p>
+        <p>Spin to inspect.</p>
+      </div>
+    </div>
+  </section>
+
+  <Section title='Manifesto'>
+    <div class='space-y-6'>
+      <p class='max-w-2xl text-lg leading-8 opacity-85'>
+        I build for people who notice details. That usually means writing software, native tools, and command-line
+        pieces with strong boundaries. I care about products that stay legible, feel authored, and make their logic
+        obvious through the interface instead of hiding it behind buzzwords.
+      </p>
+
+      <div class='grid gap-4 md:grid-cols-3'>
+        <article class='manifesto-card rounded-2xl p-5'>
+          <p class='font-mono text-xs uppercase tracking-[0.22em] opacity-45'>Taste Is A Feature</p>
+          <p class='mt-3 leading-7 opacity-80'>
+            A tool should reduce judgment calls, not dump them back onto the user.
+          </p>
+        </article>
+        <article class='manifesto-card rounded-2xl p-5'>
+          <p class='font-mono text-xs uppercase tracking-[0.22em] opacity-45'>Text Is Infrastructure</p>
+          <p class='mt-3 leading-7 opacity-80'>
+            CLI output, prompts, notes, and copy stay useful because plain text remains remixable and inspectable.
+          </p>
+        </article>
+        <article class='manifesto-card rounded-2xl p-5'>
+          <p class='font-mono text-xs uppercase tracking-[0.22em] opacity-45'>Small Beats Bloated</p>
+          <p class='mt-3 leading-7 opacity-80'>
+            Compact tools with sharp edges age better than giant systems padded with filler features.
+          </p>
+        </article>
+      </div>
+    </div>
+  </Section>
+
+  <Section title='Selected Work' className='mt-20'>
+    <div class='space-y-8'>
+      <p class='max-w-2xl font-mono text-sm leading-7 opacity-60'>
+        A few projects that best show how I think: text-forward, native where it matters, and small enough to keep
+        sharp.
+      </p>
+
+      <div class='grid gap-5'>
+        {
+          featuredProjects.map((project) => (
+            <article class='project-card rounded-3xl p-6 sm:p-7'>
+              <div class='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
+                <div class='space-y-3'>
+                  <p class='font-mono text-xs uppercase tracking-[0.22em] opacity-45'>{project.label}</p>
+                  <div class='space-y-2'>
+                    <h2 class='text-2xl font-semibold tracking-tight'>
+                      <a href={project.url} target='_blank' rel='noopener noreferrer'>
+                        {project.name} ↗
+                      </a>
+                    </h2>
+                    <p class='max-w-2xl text-base leading-8 opacity-85'>{project.desc}</p>
+                  </div>
+                </div>
+                <p class='font-mono text-xs uppercase tracking-[0.2em] opacity-45 sm:pt-1'>{project.stack}</p>
+              </div>
+
+              <p class='mt-5 max-w-2xl leading-7 opacity-70'>{project.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class='compact-shell rounded-2xl p-5 sm:p-6'>
+        <div class='mb-4 flex flex-wrap items-center justify-between gap-3'>
+          <p class='font-mono text-xs uppercase tracking-[0.22em] opacity-45'>More Projects</p>
+          <a class='font-mono text-sm opacity-60 hover:opacity-100' href='/projects'>View all -></a>
+        </div>
+
+        <ul class='grid gap-4 md:grid-cols-3'>
+          {
+            otherProjects.map((project) => (
+              <li>
+                <a href={project.url} target='_blank' rel='noopener noreferrer' class='compact-project block rounded-xl p-4'>
+                  <p class='font-mono text-sm'>{project.name} ↗</p>
+                  <p class='mt-2 text-sm leading-6 opacity-70'>{project.desc}</p>
+                </a>
+              </li>
+            ))
+          }
         </ul>
-    </Section>
+      </div>
+    </div>
+  </Section>
+
+  <Section title='Recent Snippets' className='mt-20'>
+    <div class='space-y-8'>
+      <p class='max-w-2xl font-mono text-sm leading-7 opacity-60'>
+        Recent notes from building, writing, and figuring out where AI helps and where it very much does not.
+      </p>
+
+      <div class='grid gap-4'>
+        {
+          recentSnippets.map((post) => (
+            <article class='snippet-card rounded-2xl p-5'>
+              <div class='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'>
+                <div class='space-y-2'>
+                  <h2 class='text-lg font-semibold'>
+                    <a href={`/snippets/${post.id}`}>{post.data.title}</a>
+                  </h2>
+                  <p class='max-w-2xl text-sm leading-7 opacity-70'>
+                    {post.data.description ?? 'Field notes from the build log.'}
+                  </p>
+                </div>
+                <time class='shrink-0 font-mono text-xs opacity-40' data-time={post.data.date.toISOString()}>
+                  {post.data.date.toISOString().split('T')[0]}
+                </time>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class='text-right'>
+        <a href='/snippets' class='font-mono text-sm opacity-60 hover:opacity-100'>Browse all -></a>
+      </div>
+    </div>
+  </Section>
 </Layout>
 
 <script>
-    import { initTimeElements } from "../lib/formatTime";
-    initTimeElements();
+  import { initTimeElements } from '../lib/formatTime';
+  initTimeElements();
 </script>
 
 <style>
-    /* Custom dashed line for list items */
-    .dashed-line {
-        border-bottom: 1px dashed currentColor;
-        opacity: 0.2;
-        position: relative;
-        top: -5px;
+  .hero-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-console,
+  .signal-card,
+  .manifesto-card,
+  .project-card,
+  .compact-shell,
+  .compact-project,
+  .snippet-card {
+    border: 1px solid color-mix(in srgb, currentColor, transparent 84%);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, currentColor, transparent 97%),
+        color-mix(in srgb, currentColor, transparent 99%)
+      );
+  }
+
+  .hero-console {
+    border-radius: 1.75rem;
+    padding: 1rem 1rem 0.85rem;
+  }
+
+  .home-link {
+    border: 1px solid color-mix(in srgb, currentColor, transparent 80%);
+    border-radius: 999px;
+    padding: 0.65rem 0.95rem;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .home-link:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, currentColor, transparent 55%);
+    text-decoration: none;
+  }
+
+  .home-link--solid {
+    background: color-mix(in srgb, currentColor, transparent 93%);
+  }
+
+  .project-card,
+  .compact-project,
+  .snippet-card {
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .project-card:hover,
+  .compact-project:hover,
+  .snippet-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, currentColor, transparent 62%);
+    text-decoration: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-layout {
+      grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
     }
+  }
 </style>
