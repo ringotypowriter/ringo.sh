@@ -140,7 +140,7 @@ const jsonLdText = (jsonLd ?? defaultJsonLd)
         />
 
         {jsonLdText && (
-            <script type="application/ld+json">{jsonLdText}</script>
+            <script type="application/ld+json" set:html={jsonLdText} />
         )}
 
         <!-- Google Fonts Import: Google Sans Code (Priority), Space Mono (Fallback), Noto Sans SC -->
